@@ -24,12 +24,21 @@ const deleteTask = e => {
   printTasks()
 }
 //edytowanie zadań
+const editValue = e => {
+  taskBase[e.target.className].task = e.target.value;
+  e.path[0].remove();
+  printTasks()
+}
 const editTask = e => {
   e.preventDefault()
-  console.log(e.target.className)
+  const paragraphForEditTask = document.createElement('p')
   const inputForEditTask = document.createElement('input')
-  inputForEditTask.classList.add('inputForEditTask');
-  document.querySelector(`li:nth-child(${e.target.className * 1 + 1})`).appendChild(inputForEditTask)
+  inputForEditTask.classList.add(e.target.className);
+  inputForEditTask.value = taskBase[e.target.className].task;
+  paragraphForEditTask.appendChild(inputForEditTask);
+  document.querySelector(`li:nth-child(${e.target.className * 1 + 1})`).insertBefore(paragraphForEditTask, document.querySelector(`li:nth-child(${e.target.className * 1 + 1})>button`))
+  document.querySelector(`li:nth-child(${e.target.className * 1 + 1}) p`).remove()
+  inputForEditTask.addEventListener('change', editValue)
   // taskBase[e.target.className].task =
 }
 //wyświetlenie zadań
@@ -38,15 +47,19 @@ const printTasks = () => {
   ul.textContent = "";
   taskBase.forEach(task => {
     const li = document.createElement('li');
+    const p = document.createElement('p');
     const btnDel = document.createElement('button');
     const btnEdit = document.createElement('button');
-    li.textContent = task.id + " " + task.task;
+    p.textContent = task.id + " " + task.task;
     btnDel.textContent = "Usuń";
     btnEdit.textContent = "Edytuj";
+    li.classList.add(task.id)
+    p.classList.add(task.id)
     btnDel.classList.add(task.id)
     btnEdit.classList.add(task.id)
     btnDel.addEventListener('click', deleteTask)
     btnEdit.addEventListener('click', editTask)
+    li.appendChild(p)
     li.appendChild(btnDel)
     li.appendChild(btnEdit)
     ul.appendChild(li)
