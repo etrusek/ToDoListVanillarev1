@@ -50,7 +50,7 @@ const printTasks = () => {
     const p = document.createElement('p');
     const btnDel = document.createElement('button');
     const btnEdit = document.createElement('button');
-    p.textContent = task.id + " " + task.task;
+    p.textContent = task.task;
     btnDel.textContent = "Usuń";
     btnEdit.textContent = "Edytuj";
     li.classList.add(task.id)
